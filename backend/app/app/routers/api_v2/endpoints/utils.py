@@ -206,7 +206,9 @@ def authorize_farm(
     try:
         farm_client = get_farm_client(db=db, farm=farm)
 
-        info = farm_client.info()
+        # todo: Auto-detect if the info is from a 1.x or 2.x server.
+        response = farm_client.info()
+        info = response["meta"]["farm"]
 
         crud.farm.update_info(db, farm=farm, info=info)
     except Exception as e:
